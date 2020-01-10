@@ -1,6 +1,8 @@
-with open('ubuntu-19.10-desktop-amd64.iso.torrent', 'rb') as fp:
-    read_data = fp.read()
-
+__all__ = (
+        'decode_int',
+        'decode_str',
+        'decode_lst'
+)
 def decode_int(data, pos):
     end = data[pos:].index(b'e')
     if data[pos+1] == ord('-'):
@@ -16,7 +18,6 @@ def decode_str(data, pos):
 
 def decode_lst(data):
     lst = []
-
     i = 1
     while data[i] != ord(b'e'):
         elem, newpos = decode_dic[bytes([data[i]])](data,  i)
@@ -39,6 +40,3 @@ decode_dic[b'8'] = decode_str
 decode_dic[b'9'] = decode_str
 
 decode_dic[b'i'] = decode_int
-
-print(decode_lst(b'l4:spam3:loli3ee'))
-print(decode_lst(b'l4:spami42ee'))
